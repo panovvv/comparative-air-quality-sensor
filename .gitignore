@@ -1,3 +1,5 @@
 lockfile.lck
 OldVersions/
 .DS_Store
+venv/
+.idea/
