@@ -1,5 +1,20 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# PyCharm and VirtualEnv
+.idea/
+venv/
+
+# OS-specific GUI related files
+.DS_Store
+desktop.ini
+
+# Autodesk Inventor
 lockfile.lck
 OldVersions/
-.DS_Store
-venv/
-.idea/

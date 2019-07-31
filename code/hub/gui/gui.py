@@ -2,7 +2,7 @@ from datetime import datetime
 from random import randint
 
 import pandas as pd
-import seaborn as sns
+import seaborn as sb
 from matplotlib import pyplot as plt
 from matplotlib.dates import DateFormatter
 
@@ -16,10 +16,9 @@ def handle_close(evt):
 
 
 def gui_loop():
-    # sns.set()
-    sns.set(rc={'figure.figsize': (11, 4)})
+    sb.set()
 
-    # interactive mode - non blocking rendering call
+    # interactive mode on - non blocking rendering call
     plt.ion()
 
     x = []

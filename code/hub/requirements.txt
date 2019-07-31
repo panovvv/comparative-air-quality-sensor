@@ -1,3 +1,18 @@
+# I2C
 smbus2==0.2.3
+
+# Plotting
 matplotlib==3.0.3
 seaborn==0.9.0
+
+# One of seaborn's deps was pandas>=0.15.2, and naturally it tries to pull
+# the latest version (0.25.0) which doesn't have a wheel built for my python
+# version (3.5, or cp35m). Pinning a version with a compiled wheel helps.
+#
+# TLDR: If you see pip trying to build a wheel locally (and a bunch of errors
+# along the way b/c you don't have wheels and Cython packages to do that),
+# look for the latest version with a wheel built for your python version here:
+# https://www.piwheels.hostedpi.com/project/pandas/
+# https://www.piwheels.hostedpi.com/project/numpy/
+pandas==0.24.2
+numpy==1.16.4

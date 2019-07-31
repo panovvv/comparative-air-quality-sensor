@@ -32,8 +32,11 @@ venv:
 cp:
 	./sbc.sh cp
 
-rem-venv:
+rem-venv: cp
 	./sbc.sh venv
+
+rem-clean:
+	./sbc.sh clean
 
 run:
 	./sbc.sh run
