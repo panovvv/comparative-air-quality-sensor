@@ -2,13 +2,17 @@ from smbus2 import SMBus
 
 
 class Scanner:
-    """Scans I2C network for live hosts, respecting reserved addresses."""
+    """
+    Scan I2C network on specified bus for live hosts,
+    respecting reserved addresses.
+    """
 
     def __init__(self, bus_num):
         self.bus_num = bus_num
         print("I2C bus  :" + str(bus_num))
 
     def scan(self, start_addr=0x00, end_addr=0x7F):
+        """ Scan I2C bus, return the list of live host addresses"""
         try:
             bus = SMBus(self.bus_num)
         except PermissionError:
@@ -18,8 +22,8 @@ class Scanner:
         live_hosts = set()
         reserved_addresses = {0, 1, 2, 3, 4, 5, 6, 7,
                               120, 121, 122, 123, 124, 125, 126, 127}
-        for i in [item for item in range(start_addr, end_addr + 1)
-                  if item not in reserved_addresses]:
+        for i in {item for item in range(start_addr, end_addr + 1)
+                  if item not in reserved_addresses}:
             val = 1
             try:
                 bus.read_byte(i)

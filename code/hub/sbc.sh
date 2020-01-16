@@ -5,7 +5,7 @@
 
 # User-defined variables
 SBC_USER=pi
-SBC_IP=192.168.2.107
+SBC_IP=10.12.10.202
 
 # We don't want to copy that over
 VENV_PATH=venv
@@ -23,13 +23,12 @@ case $1 in
       --exclude=.idea "$ROOT_DIR" $SBC_USER_AT_IP:/home/$SBC_USER/
     ;;
     venv)
-      ssh -t $SBC_USER_AT_IP python3 -m venv "/home/$SBC_USER/$ROOT_DIR_NAME/venv"
-      ssh -t $SBC_USER_AT_IP "cd /home/$SBC_USER/$ROOT_DIR_NAME && . venv/bin/activate && pip install -r requirements.txt"
+      ssh -t $SBC_USER_AT_IP python3.7 -m venv "/home/$SBC_USER/$ROOT_DIR_NAME/venv"
+      ssh -t $SBC_USER_AT_IP "cd /home/$SBC_USER/$ROOT_DIR_NAME && . venv/bin/activate && pip3.7 install -r requirements.txt"
     ;;
     run)
       ssh -t $SBC_USER_AT_IP \
-      ". /home/$SBC_USER/$ROOT_DIR_NAME/venv/bin/activate; \\
-       python /home/$SBC_USER/$ROOT_DIR_NAME/main.py 1"
+      ". /home/$SBC_USER/$ROOT_DIR_NAME/venv/bin/activate; python3.7 /home/$SBC_USER/$ROOT_DIR_NAME/main.py 1"
     ;;
     clean)
       ssh -t $SBC_USER_AT_IP "rm -rf /home/$SBC_USER/$ROOT_DIR_NAME"
