@@ -1,9 +1,9 @@
 from enum import Enum
 
 
-class SensorType(Enum):
-    ppd42 = 1
-    pms3003 = 2
-    pms5003 = 3
-    pms7003 = 4
-    hpma115s0 = 5
+class SensorType(str, Enum):
+    PPD42 = "Shinyei PPD42"
+    PMS3003 = "PMS3003"
+    PMS5003 = "PMS5003"
+    PMS7003 = "PMS7003"
+    HPMA115S0 = "HPMA115S0"

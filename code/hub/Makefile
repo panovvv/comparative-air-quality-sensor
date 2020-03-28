@@ -1,42 +1,61 @@
-help:
-	@echo "clean - remove Python artifacts, virtual environment and IDE project files"
-	@echo "venv - install venv with all requirements for Airflow"
-	@echo "cp - copy the project over to single board computer"
-	@echo "rem-venv - update remote venv"
-	@echo "run - run project on SBC"
+invocation_params = -b 1
 
-all: help
+help:
+	@echo "Prerequisites:"
+	@echo "  * Open ./sbc.sh and define user and IP for your single-board computer."
+	@echo "  * Copy your public key to SBC for passwordless login."
+	@echo "  * Install Python 3.7 on your SBC. Adding it to \$PATH is not necessary."
+	@echo "  * Customize invocation_params above as needed. Take a look at main.py to see how to invoke it."
+	@echo "Basic commands you'll need:"
+	@echo "  clean - remove local virtual environment and the whole remote project folder on SBC."
+	@echo "  dev - install venv with all requirements on local PC. Useful for development."
+	@echo "  format - reformat code + sort imports."
+	@echo "  lint - run flake8 to highlight code design problems."
+	@echo "  run - run project remotely on SBC."
 
 default: help
 
-clean: clean-venv clean-pyc
+clean: local-clean rem-clean
 
-clean-venv:
+local-clean:
 	rm -rf venv/
 
-clean-pyc:
-	find . -name '*.pyc' -exec rm -f {} +
-	find . -name '*.pyo' -exec rm -f {} +
-	find . -name '*~' -exec rm -f {} +
-	find . -name '__pycache__' -exec rm -fr {} +
+rem-clean:
+	./sbc.sh rm-clean
 
 venv:
 	@if [ ! -e "./venv/bin/activate" ] ; then \
 		python3 -m venv ./venv ; \
-		source ./venv/bin/activate && \
-		pip install -r requirements.txt ; \
+		. ./venv/bin/activate && \
+		pip3 install --upgrade pip && \
+		pip3 install -r requirements.txt ; \
 	else \
 		echo "Virtual environment had already been created." ; \
 	fi
 
-cp:
-	./sbc.sh cp
+dev: venv
+	@if [ ! -e "./venv/bin/black" ] ; then \
+		. ./venv/bin/activate && \
+		pip3 install -r requirements_dev.txt ; \
+	else \
+		echo "Dev dependencies had already been installed." ; \
+	fi
 
-rem-venv: cp
+
+format: dev
+	. ./venv/bin/activate && \
+	black communications/ gui/ sensors/ main.py && \
+	isort -rc communications/ gui/ sensors/ main.py
+
+lint: dev
+	. ./venv/bin/activate && \
+	flake8
+
+sync:
+	./sbc.sh sync
+
+rem-venv: sync
 	./sbc.sh venv
 
-rem-clean:
-	./sbc.sh clean
-
-run:
-	./sbc.sh run
+run: sync rem-venv
+	./sbc.sh run $(invocation_params)
