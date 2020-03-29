@@ -20,7 +20,7 @@ RESERVED_ADDR = {
 }
 
 
-class Scanner:
+class IicScanner:
     """
     Scan I2C network on specified bus for live hosts,
     respecting reserved addresses.

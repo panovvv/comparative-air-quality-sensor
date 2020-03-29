@@ -1,13 +1,17 @@
 from datetime import datetime
 from random import randint
 
-import pandas as pd
-import seaborn as sb
-from matplotlib import pyplot as plt
+import pandas
+import seaborn
+from matplotlib import pyplot
 from matplotlib.dates import DateFormatter
 
 X_WIDTH = 60
 X_FREQ = "10s"
+
+x = []
+y1 = []
+y2 = []
 
 
 def handle_close(evt):
@@ -15,44 +19,43 @@ def handle_close(evt):
     exit(0)
 
 
-def gui_loop():
-    sb.set()
+def gui_loop(redraw_period):
+    seaborn.set()
 
     # interactive mode on - non blocking rendering call
-    plt.ion()
+    pyplot.ion()
 
-    x = []
-    y1 = []
-    y2 = []
-    (line1,) = plt.plot_date(x, y1, "-", xdate=True, label="d1")
-    (line2,) = plt.plot_date(x, y2, "-", xdate=True, label="d2")
-    plt.legend()
-    plt.yticks(list(range(0, 110, 10)))
-    plt.gca().set_ylim(0, 110)
-    plt.gca().xaxis.set_major_formatter(DateFormatter("%Y-%m-%d %H:%M:%S"))
+    (line1,) = pyplot.plot_date(x, y1, "-", xdate=True, label="d1")
+    (line2,) = pyplot.plot_date(x, y2, "-", xdate=True, label="d2")
+    pyplot.legend()
+    pyplot.yticks(list(range(0, 110, 10)))
+    pyplot.gca().set_ylim(0, 110)
+    pyplot.gca().xaxis.set_major_formatter(DateFormatter("%d %H:%M:%S"))
+    fig = pyplot.gcf()
+    fig.canvas.set_window_title("Comparative air quality sensor")
+    fig.canvas.manager.full_screen_toggle()
 
-    plt.show()
+    pyplot.show()
 
-    plt.gca().figure.canvas.mpl_connect("close_event", handle_close)
+    pyplot.gca().figure.canvas.mpl_connect("close_event", handle_close)
     while True:
-        xend = datetime.now()
-        xstart = datetime.fromtimestamp((datetime.timestamp(xend) - X_WIDTH))
-        xticks = pd.date_range(xstart, xend, freq=X_FREQ)
+        x_end = datetime.now()
+        x_start = datetime.fromtimestamp((datetime.timestamp(x_end) - X_WIDTH))
+        x_ticks = pandas.date_range(x_start, x_end, freq=X_FREQ)
 
-        plt.xticks(xticks)
-        plt.gca().set_xlim(xstart, xend)
-        plt.gcf().autofmt_xdate()
+        pyplot.xticks(x_ticks)
+        pyplot.gca().set_xlim(x_start, x_end)
+        pyplot.gcf().autofmt_xdate()
 
-        x.append(xend)
+        x.append(x_end)
         y1.append(randint(0, 100))
         y2.append(randint(0, 100))
         if len(x) == X_WIDTH:
             x.pop(0)
             y1.pop(0)
             y2.pop(0)
-
         line1.set_xdata(x)
         line1.set_ydata(y1)
         line2.set_xdata(x)
         line2.set_ydata(y2)
-        plt.pause(1)
+        pyplot.pause(redraw_period)

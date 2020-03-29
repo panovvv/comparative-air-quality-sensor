@@ -155,3 +155,7 @@ desktop.ini
 # Autodesk Inventor
 lockfile.lck
 OldVersions/
+
+# SBC variables export statements
+sbc_vars.sh
+

@@ -1,27 +1,30 @@
-# Python version is 3.7, all fixed dependencies below have wheels (pre-compiled libraries) for them on Raspberry Pi
+# Python version is 3.7, all fixed dependencies below have wheels
+# (pre-compiled libraries) for them on Raspberry Pi
 # See https://www.piwheels.hostedpi.com
 
 # I2C
 smbus2==0.3.0
 
 # Plotting
-matplotlib==3.0.3
-seaborn==0.9.0
+matplotlib==3.2.1
+seaborn==0.10.0
 
-# One of seaborn's deps was pandas>=0.15.2, and naturally it tries to pull
+# Indirect dependencies follow below:
+# TODO Better descr
+# One of seaborn's (0.9.0) deps was pandas>=0.15.2, and naturally it tries to pull
 # the latest version (0.25.0) which doesn't have a wheel built for my python
-# version (3.7, or cp37m). Pinning a version with a compiled wheel helps.
+# version (3.7, or cp37m). Pinning a version with a wheel compiled for your arch helps.
 #
 # TLDR: If you see pip trying to build a wheel locally (and a bunch of errors
 # along the way b/c you don't have wheels and Cython packages to do that),
 # look for the latest version with a wheel built for your python version here:
 # https://www.piwheels.hostedpi.com/
-pandas==0.24.2
-numpy==1.16.4
 kiwisolver==1.1.0
 pyparsing==2.4.6
 python-dateutil==2.8.1
 cycler==0.10.0
-scipy==1.3.3
 pytz==2019.3
 six==1.14.0
+numpy==1.18.2
+pandas==1.0.3
+scipy==1.4.1
