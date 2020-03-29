@@ -1,1 +1,1 @@
-comparative-air-pollution-sensor
+comparative-air-quality-sensor

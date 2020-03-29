@@ -127,7 +127,7 @@ void setup() {
 }
 
 void loop() {
-  //   3 min to heat up
+  // 3 minutes to heat up
   for (int i = 0; i < 900; i++) {
     digitalWrite(LED_BUILTIN, 1);
     delay(1000);

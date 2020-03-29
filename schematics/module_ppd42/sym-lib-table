@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name Sensor_Gas_Homemade)(type Legacy)(uri /Users/vpanov/mega/kicad/homemade-kicad-libraries/symbols/Sensor_Gas_Homemade.lib)(options "")(descr ""))
+  (lib (name bluepill)(type Legacy)(uri /Users/vpanov/mega/kicad/libraries/full_libraries/bpnode-bb/KiCAD/libraries/bluepill.lib)(options "")(descr ""))
+)
