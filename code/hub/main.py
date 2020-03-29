@@ -11,8 +11,9 @@ SEC_BETWEEN_SCANS = 1
 def main():
     print_welcome_msg()
     args = parse_args()
-    print(f"I2C bus: {args.bus}")
-    scanner = Scanner(args.bus)
+    bus = args.bus
+    print(f"I2C bus: {bus}")
+    scanner = Scanner(bus)
     print(
         f"Going to scan I2C network for live sensors "
         f"every {SEC_BETWEEN_SCANS} second(s)."
@@ -25,11 +26,18 @@ def main():
         new_addresses = scanner.scan()
         added, vanished = new_addresses - addresses, addresses - new_addresses
         if len(added) > 0:
-            print(f"New hosts: {added}")
+            print(f"New nodes: {added}")
             for address in added:
-                sensors.add(Sensor(address))
+                print(f"Registering with sensor {address}@{bus}...")
+                s = Sensor(bus, address)
+                print(
+                    f"Sensor {address}@{bus}: UUID {s.uuid}, model {s.model}, "
+                    f"pollutants {s.pollutants}, "
+                    f"sample period {s.sample_period_seconds} seconds."
+                )
+                sensors.add(s)
         if len(vanished) > 0:
-            print(f"Vanished hosts: {vanished}")
+            print(f"Vanished nodes: {vanished}")
             sensors = {x for x in sensors if x.address not in vanished}
         addresses = new_addresses
         time.sleep(SEC_BETWEEN_SCANS)

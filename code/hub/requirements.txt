@@ -2,7 +2,7 @@
 # See https://www.piwheels.hostedpi.com
 
 # I2C
-smbus2==0.2.3
+smbus2==0.3.0
 
 # Plotting
 matplotlib==3.0.3
